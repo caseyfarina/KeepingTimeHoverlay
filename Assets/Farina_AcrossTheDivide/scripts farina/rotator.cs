@@ -84,6 +84,9 @@ public class rotator : MonoBehaviour
 
     void playRotateSound()
     {
-        thisAudio.Play();
+        if (gameObject.GetComponent<AudioSource>() != null)
+        {
+            thisAudio.Play();
+        }
     }
 }
