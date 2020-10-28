@@ -64,7 +64,7 @@ public class metricRotator : MonoBehaviour
         Tween spin = transform.DOLocalRotate(targetRotation, rotationTime, RotateMode.LocalAxisAdd).SetEase(Ease.InOutCirc);
         Vector3 currentScale = transform.localScale;
         transform.GetChild(0).transform.DOPunchScale(currentScale * 2f, rotationTime / 2f, 0, 1f).SetDelay(rotationTime / 2f).OnPlay(playRotateSound);
-        Debug.Log("spin " + rotationTime);
+        //Debug.Log("spin " + rotationTime);
     }
     void playRotateSound()
     {
