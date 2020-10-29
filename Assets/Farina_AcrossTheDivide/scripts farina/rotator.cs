@@ -10,6 +10,7 @@ public class rotator : MonoBehaviour
     public float rotationDegreeDistance = 45f;
     public float punchScale = 1f;
     private float rotationSpeed;
+    public Ease easingFunction;
     AudioSource thisAudio;
     private float previousRotation;
     Vector3 startingRotation;
@@ -75,10 +76,11 @@ public class rotator : MonoBehaviour
     void rotateSound()
     {
         Vector3 targetRotation = new Vector3(0, rotationIncrement, 0);
-        Tween spin = transform.DOLocalRotate(targetRotation, rotationTime, RotateMode.LocalAxisAdd).SetEase(Ease.InOutSine);
+        Tween spin = transform.DOLocalRotate(targetRotation, rotationTime, RotateMode.LocalAxisAdd).SetEase(easingFunction);
+
       
         Vector3 currentScale = transform.GetChild(0).localScale;
-        transform.GetChild(0).transform.DOPunchScale(currentScale * punchScale, 0.5f, 0, 1f).SetDelay(rotationTime / 2f).OnPlay(playRotateSound);
+        transform.GetChild(0).transform.DOPunchScale(currentScale * punchScale, 0.5f, 0, 1f).OnPlay(playRotateSound);
         Debug.Log("spin");
     }
 

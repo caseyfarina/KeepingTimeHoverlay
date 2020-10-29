@@ -8,8 +8,11 @@ public class bellMetricRotator : MonoBehaviour
    // public float orbitalDistance = 1f;
     public float animationDistance = .2f;
     public int[] pattern = new int[] { 1, 1, 1, 1, 1 };
+    private int counter = 0;
     public float tempoBPM = 80f;
     public float subdivision = 1f;
+    public float soundDelay = 2f;
+    public float xRotationOffset = 0f;
 
 
     
@@ -18,6 +21,7 @@ public class bellMetricRotator : MonoBehaviour
   
     Vector3 startingRotation;
     float rotationTime;
+
     GameObject child;
     // Start is called before the first frame update
 
@@ -36,7 +40,7 @@ public class bellMetricRotator : MonoBehaviour
        // child.transform.localPosition = new Vector3(0, 0, orbitalDistance);
 
         //calculate rotation time
-        rotationTime = (60f / tempoBPM) * subdivision + Random.RandomRange(0f,5);
+        rotationTime = (60f / tempoBPM) * subdivision  /*+ Random.RandomRange(0f,5) */;
         Debug.Log(rotationTime);
 
 
@@ -61,11 +65,16 @@ public class bellMetricRotator : MonoBehaviour
     }
     void rotateSound()
     {
-        Vector3 targetRotation = new Vector3(0, 360f * animationDistance, 0);
-        Tween spin = transform.DOLocalRotate(targetRotation, rotationTime, RotateMode.LocalAxisAdd).SetEase(Ease.InOutCirc);
-        Vector3 currentScale = transform.localScale;
-        transform.transform.DOPunchScale(Vector3.zero, rotationTime / 2f, 0, 1f).SetDelay(rotationTime / 2f).OnPlay(playRotateSound);
-        //Debug.Log("spin " + rotationTime);
+        counter++;
+
+        if (pattern[counter % pattern.Length] == 1)
+        {
+            Vector3 targetRotation = new Vector3(xRotationOffset, 360f * animationDistance, 0);
+            Tween spin = transform.DOLocalRotate(targetRotation, rotationTime * .9f, RotateMode.LocalAxisAdd).SetEase(Ease.InOutCirc);
+            Vector3 currentScale = transform.localScale;
+            transform.transform.DOPunchScale(Vector3.zero, rotationTime / 2f, 0, 1f).SetDelay((rotationTime * .9f) / soundDelay).OnPlay(playRotateSound);
+            //Debug.Log("spin " + rotationTime);
+        }
     }
     void playRotateSound()
     {
